@@ -2,6 +2,8 @@
 #include "darts.h"
 #include <typeinfo>
 #include <fstream>
+#include <iterator>
+#include <algorithm>
 
 int main(){
     counter c;
@@ -14,10 +16,9 @@ int main(){
             c.countdown -= c.score;
             std::cout<< "-> -> -> "<< c.countdown;
 
-            c.checkout_loop(c.countdown);
-
             if (c.countdown <= 350){
-                if (c.countdown > 170) {
+                if (c.countdown > 170 || std::find(std::begin(c.no_checkout), std::end(c.no_checkout), c.countdown) != std::end(c.no_checkout)) {
+                    c.checkout_loop(c.countdown);
                     std::cout<< "\t\t\t\tto get to checkout hit\n\n";
 //                    std::string out;
                     for (auto ch : c.checkout_v){
@@ -28,7 +29,8 @@ int main(){
 //                    outfile.open("/home/moritz/Nextcloud2/C++/darts_alt_string/darts/box1.json");
 //                    outfile << out;
                 }
-                else if (c.finish_v.size() == 1){
+                else { c.finish_loop(c.countdown);}
+                if (c.finish_v.size() == 1){
                             std::cout<< "\t\tfinish:\n" << c.finish_v[0] <<'\n';
                 }
                 else{
