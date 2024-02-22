@@ -34,16 +34,16 @@ double counter::diffSum(std::map<std::string, double> current_targets_p){
      return diff_sum;
 }
 
-void counter::insertion(std::map<std::string, double> current_targets, std::string ct, std::vector<std::map<std::string, double>>& maps_p, std::vector<std::string>& strings_p){
-      if (std::find(maps_p.begin(), maps_p.end(), current_targets) == maps_p.end()){
+void counter::insertion(std::map<std::string, double> current_targets, std::string ct){
+      if (std::find(finish.begin(), finish.end(), current_targets) == finish.end()){
             int order_index = 0;
-                for (int t = maps_p.size()-1; t >= 0; t--){
-                    if (diffSum(maps_p[t]) == diffSum(current_targets)){
-                        if (strings_p[t].at(strings_p[t].length()-5) == 'D'){
-                            if (std::find(std::begin(prio), std::end(prio), strings_p[t].substr(strings_p[t].length()-4, 2)) != std::end(prio) && \
+                for (int t = finish.size()-1; t >= 0; t--){
+                    if (diffSum(finish[t]) == diffSum(current_targets)){
+                        if (finish_v[t].at(finish_v[t].length()-5) == 'D'){
+                            if (std::find(std::begin(prio), std::end(prio), finish_v[t].substr(finish_v[t].length()-4, 2)) != std::end(prio) && \
                                (std::find(std::begin(prio), std::end(prio), ct.substr(ct.length()-4, 2)) == std::end(prio))){
                                 std::cout<< "\nneu: "<< ct.substr(ct.length()-4, 2) << '\n';
-                                std::cout<< "\nbestand: "<< strings_p[t].substr(strings_p[t].length()-4, 2)<< '\n';
+                                std::cout<< "\nbestand: "<< finish_v[t].substr(finish_v[t].length()-4, 2)<< '\n';
                                     continue;
                             }
                             else{
@@ -52,28 +52,28 @@ void counter::insertion(std::map<std::string, double> current_targets, std::stri
                             }
                         }
                     }
-                    if (diffSum(maps_p[t]) > diffSum(current_targets)){   // && maps_p[t].size() <= current_targets.size()
+                    if (diffSum(finish[t]) > diffSum(current_targets)){   // && finish[t].size() <= current_targets.size()
                         order_index = t+1;
                         break;
                     }
                 }
-            strings_p.insert(strings_p.begin() + order_index, ct);
-            maps_p.insert(maps_p.begin() + order_index, current_targets);
+            finish_v.insert(finish_v.begin() + order_index, ct);
+            finish.insert(finish.begin() + order_index, current_targets);
         }
 }
 
-void counter::insertion_checkout(std::map<std::string, double> current_targets, std::string ct, std::vector<std::map<std::string, double>>& maps_p, std::vector<std::string>& strings_p){
-      if (std::find(maps_p.begin(), maps_p.end(), current_targets) == maps_p.end()){
+void counter::insertion_checkout(std::map<std::string, double> current_targets, std::string ct){
+      if (std::find(checkout.begin(), checkout.end(), current_targets) == checkout.end()){
             int order_index = 0;
-                for (int t = maps_p.size()-1; t >= 0; t--){
-                    if (diffSum(maps_p[t]) > diffSum(current_targets)){   // && maps_p[t].size() <= current_targets.size()
+                for (int t = checkout.size()-1; t >= 0; t--){
+                    if (diffSum(checkout[t]) > diffSum(current_targets)){   // && checkout[t].size() <= current_targets.size()
                         order_index = t+1;
                         break;
                     }
                 }
-            strings_p.insert(strings_p.begin() + order_index, ct);
-            maps_p.insert(maps_p.begin() + order_index, current_targets);
-        }
+            checkout_v.insert(checkout_v.begin() + order_index, ct);
+            checkout.insert(checkout.begin() + order_index, current_targets);
+      }
 }
 
 

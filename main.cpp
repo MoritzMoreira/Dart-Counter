@@ -19,29 +19,26 @@ int main(){
             if (c.countdown <= 350){
                 if (c.countdown > 170 || std::find(std::begin(c.no_checkout), std::end(c.no_checkout), c.countdown) != std::end(c.no_checkout)) {
                     c.checkout_loop(c.countdown);
-                    std::cout<< "\t\t\t\tto get to checkout hit\n\n";
-//                    std::string out;
+                    std::cout<< "\t\nto get to checkout hit: (Dart 1, Dart 2, Dart 3, total target area)\n\n";
                     for (auto ch : c.checkout_v){
-//                        out += ch + "\n";
                         std::cout<< ch << '\n';
                     }
-//                    std::ofstream outfile;
-//                    outfile.open("/home/moritz/Nextcloud2/C++/darts_alt_string/darts/box1.json");
-//                    outfile << out;
                 }
-                else { c.finish_loop(c.countdown);}
-                if (c.finish_v.size() == 1){
-                            std::cout<< "\t\tfinish:\n" << c.finish_v[0] <<'\n';
-                }
-                else{
-                    std::cout<< "\t\tfinishes:\n";
-                    for (std::string f : c.finish_v){
-                            std::cout<< f << '\n';
+                else {c.finish_loop(c.countdown);
+                    if (c.finish_v.size() == 1){
+                                std::cout<< "\nfinish: (Dart 1, Dart 2, Dart 3, total target area)\n\n" << c.finish_v[0] <<'\n';
+                    }
+                    else{
+                        std::cout<< "\nfinishes: (Dart 1, Dart 2, Dart 3, total target area)\n\n";
+                        for (std::string f : c.finish_v){
+                                std::cout<< f << '\n';
+                        }
                     }
                 }
+                std::cout<< "\v";
             }
             else {
-                std::cout<< "\t\t\tcan't finish\n";
+                std::cout<< "\t\t\tcan't finish\n\n";
             }
         }
         else {
