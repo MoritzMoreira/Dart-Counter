@@ -4,6 +4,9 @@
 #include <fstream>
 #include <iterator>
 #include <algorithm>
+#include <iomanip>
+#include <sstream>
+
 
 int main(){
     counter c;
@@ -14,28 +17,25 @@ int main(){
         std::cin>> c.score;
         if (c.countdown - c.score >= 2){
             c.countdown -= c.score;
-            std::cout<< "-> -> -> "<< c.countdown;
+            std::cout<< "-> -> -> " << c.countdown<<"\n";
 
             if (c.countdown <= 350){
                 if (c.countdown > 170 || std::find(std::begin(c.no_checkout), std::end(c.no_checkout), c.countdown) != std::end(c.no_checkout)) {
                     c.checkout_loop(c.countdown);
-                    std::cout<< "\t\nto get to checkout hit: (Dart 1, Dart 2, Dart 3, total target area)\n\n";
-                    for (auto ch : c.checkout_v){
-                        std::cout<< ch << '\n';
-                    }
+                    std::cout<< "\t\nto get to checkout hit:\n";
+                    c.print(c.checkout_v);
                 }
-                else {c.finish_loop(c.countdown);
-                    if (c.finish_v.size() == 1){
-                                std::cout<< "\nfinish: (Dart 1, Dart 2, Dart 3, total target area)\n\n" << c.finish_v[0] <<'\n';
+
+
+                else {
+                    c.finish_loop(c.countdown);
+                    if (c.finish_v.size() == 1) { std::cout<< "\nfinish:\n\n";
                     }
-                    else{
-                        std::cout<< "\nfinishes: (Dart 1, Dart 2, Dart 3, total target area)\n\n";
-                        for (std::string f : c.finish_v){
-                                std::cout<< f << '\n';
-                        }
+                    else {std::cout<< "\nfinishes:\n";
                     }
+                    c.print(c.finish_v);
                 }
-                std::cout<< "\v";
+                std::cout<< std::string(45, '_')<<"\n\v";
             }
             else {
                 std::cout<< "\t\t\tcan't finish\n\n";
