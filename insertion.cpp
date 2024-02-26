@@ -8,9 +8,8 @@
 #include <sstream>
 
 void counter::insertion(std::map<std::string, double> current_targets, std::vector<std::pair<int,int>> ct){   // improvement: sort vector after calculation of ALL options. -> how to reduce calculation time? Setting breaks?
-      if (std::find(finish.begin(), finish.end(), current_targets) == finish.end()){
             int order_index = 0;
-                for (int t = finish.size()-1; t >= 0; t--){
+                for (int t = finish_v.size()-1; t >= 0; t--){
 
                     if (bull_count(ct) < bull_count(finish_v[t])){
                           continue;
@@ -77,17 +76,14 @@ void counter::insertion(std::map<std::string, double> current_targets, std::vect
                         order_index = t+1;
                         break;
                     }
-
                 }
             finish_v.insert(finish_v.begin() + order_index, ct);
-            finish.insert(finish.begin() + order_index, current_targets);
-      }
 }
 
 void counter::insertion_checkout(std::map<std::string, double> current_targets, std::vector<std::pair<int,int>> ct){
       if (std::find(checkout_v.begin(), checkout_v.end(), ct) == checkout_v.end()){
             int order_index = 0;
-                for (int t = checkout.size()-1; t >= 0; t--){
+                for (int t = checkout_v.size()-1; t >= 0; t--){
                     if (double_bull_count(ct) < double_bull_count(checkout_v[t])){
                         continue;
                     }
@@ -108,6 +104,5 @@ void counter::insertion_checkout(std::map<std::string, double> current_targets, 
                     }
                 }
             checkout_v.insert(checkout_v.begin() + order_index, ct);
-            checkout.insert(checkout.begin() + order_index, current_targets);
       }
 }

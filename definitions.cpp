@@ -20,7 +20,7 @@ counter::result counter::checkout_test(int countdown_p, std::map<std::string, do
     }
     else {
         countdown_p -= j_p * i_p;
-        current_targets[h[j_p - 1] + std::to_string(i_p) + "  "] = diff[j_p-1];
+        current_targets[bed_names[j_p - 1] + std::to_string(i_p) + "  "] = diff[j_p-1];
         ct.push_back({j_p, i_p});
     }
     return {countdown_p, current_targets, ct};
@@ -113,16 +113,20 @@ bool counter::maxSingle(std::vector<std::pair<int,int>> finish_v_p, std::vector<
 
 void counter::print(std::vector<std::vector<std::pair<int,int>>> ct_vec){
     int count = 0;
-    std::cout << std::string(45, '-')<< '\n' << "Dart 1\t" << std::setw(15) << "Dart 2\tDart 3\ttarget area (mm2)n"  <<'\n';
+    std::cout << std::string(45, '-')<< '\n' << "Dart 1\t" << "Dart 2\tDart 3\t";
+    if (checkout_v.size() > 0){std::cout << "for\t";}
+    std::cout<< "target area (mm2)n"  <<'\n';
 
     for (auto i : ct_vec){
         if (count >= print_limit){break;}
             for (auto el : i){
                 if (el.second == 50 || el.second == 25){
-                    std::cout<< h[el.first-1] << "\t";
+                    std::cout<< bed_names[el.first-1] << "\t";
                 }
-                else { std::cout<< h[el.first-1] << el.second << "\t";}
+                else {std::cout<< bed_names[el.first-1] << el.second << "\t";}
             }
+            if(checkout_v.size() > 0){ std::cout<< countdown - scoreSum(i) << '\t';}
+
             std::cout << std::string((2 - (i.size()-1)), '\t') << diffSum(i) << "\n";
             count++;
     }

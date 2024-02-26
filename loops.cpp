@@ -25,7 +25,7 @@ void counter::checkout_loop(int countdown_p){
                   int cd_afterDart1 = test_result.countdown_i;
                   std::map<std::string, double> ct_afterD1_m = test_result.current_targets_p;
                   std::vector<std::pair<int,int>> ct_afterD1_s = test_result.ct_p;
-                  if (cd_afterDart1 < 2 || checkout.size() > limit) {break;}
+                  if (cd_afterDart1 < 2 || checkout_v.size() > limit) {break;}
 
                   for (int k=3; k!=0; k -= 2){
                          for (int l = 20; l >-2; --l) {
@@ -33,7 +33,7 @@ void counter::checkout_loop(int countdown_p){
                               int cd_afterDart2 = test_result2.countdown_i;
                               std::map<std::string, double> ct_afterD2_m = test_result2.current_targets_p;
                               std::vector<std::pair<int,int>> ct_afterD2_s = test_result2.ct_p;
-                              if (cd_afterDart2 < 2 || checkout.size() > limit) {break;}
+                              if (cd_afterDart2 < 2 || checkout_v.size() > limit) {break;}
 
                               for (int u=3; u!=0; u -= 2){
                                   for (int m = 20; m >-2; --m) {
@@ -45,7 +45,7 @@ void counter::checkout_loop(int countdown_p){
                                             std::sort(ct_afterD3_s.begin(), ct_afterD3_s.end());
                                             insertion_checkout(ct_afterD3_m, ct_afterD3_s);
                                        }
-                                         if (cd_afterD3 < 2 || checkout.size() > limit) {break;}
+                                         if (cd_afterD3 < 2 || checkout_v.size() > limit) {break;}
                                   }
                                   if (u == 1) {
                                        u += 3;
@@ -78,7 +78,7 @@ void counter::finish_loop(int countdown_p){
                             break;
                       }
                   }
-                  else if (finish.size() > limit) {break;}
+                  else if (finish_v.size() > limit) {break;}
 
                   for (int k=3; k!=0; k-=2){
                          for (int l = 20; l >-2; --l) {
@@ -95,7 +95,7 @@ void counter::finish_loop(int countdown_p){
                                       break;
                                   }
                               }
-                              else if (finish.size() > limit) {break;}
+                              else if (finish_v.size() > limit) {break;}
 
                               for (int m = 20; m >-1; --m) {
 
@@ -112,7 +112,7 @@ void counter::finish_loop(int countdown_p){
                                        }
                                        finish_v_ordered.push_back(ct_afterD3_s_ordered);
                                    }
-                                   else if (finish.size() > limit) {break;}
+                                   else if (finish_v.size() > limit) {break;}
                                }
                            }
                            if (k == 1) {

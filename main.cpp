@@ -46,8 +46,6 @@ int main(){
         }
         c.finish_v = {};
         c.checkout_v = {};
-        c.finish = {};
-        c.checkout = {};
     }
 
     return 0;
