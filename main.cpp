@@ -6,18 +6,19 @@
 #include <algorithm>
 #include <iomanip>
 #include <sstream>
-
+#include <nlohmann/json.hpp>
+#include <string>
 
 int main(){
     counter c;
     std::cout<< c.countdown<<'\n';
 
+//    nlohmann::json j;
+//    std::vector<int> kf = {3,5,7};
+//    j["test"] = kf;
+
     while (c.countdown != 0){
-        std::cout << "enter score: ";
-        std::cin>> c.score;
-        if (c.countdown - c.score >= 2){
-            c.countdown -= c.score;
-            std::cout<< "-> -> -> " << c.countdown<<"\n";
+            c.enter_score();
 
             if (c.countdown <= 350){
                 if (c.countdown > 170 || std::find(std::begin(c.no_checkout), std::end(c.no_checkout), c.countdown) != std::end(c.no_checkout)) {
@@ -40,13 +41,9 @@ int main(){
             else {
                 std::cout<< "\t\t\tcan't finish\n\n";
             }
+            c.finish_v = {};
+            c.checkout_v = {};
         }
-        else {
-            std::cout<< "\t\t\tno score\n";
-        }
-        c.finish_v = {};
-        c.checkout_v = {};
-    }
-
+    endProgram:
     return 0;
 }

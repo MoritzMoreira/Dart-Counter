@@ -6,6 +6,64 @@
 #include "darts.h"
 #include <iomanip>
 #include <sstream>
+#include <nlohmann/json.hpp>
+
+int counter::MINi(size_t a, size_t b) {if (a < b) {return a;} else {return b;}}
+
+counter::counter(){
+    char pBuf[256];
+    size_t len = sizeof(pBuf);
+    int bytes = MINi(readlink("/proc/self/exe", pBuf, len), len - 1);
+    if (bytes >= 0)
+        pBuf[bytes] = '\0';
+    const char* fileN= "/highscore.json";
+    for (int i = std::strlen(pBuf)-1; ; i--){
+        if (pBuf[i] == '/'){
+            pBuf[i] = '\0'; break;
+        }
+        else {pBuf[i] = '\0';}
+    }
+    pfad = (char*) malloc(std::strlen(pBuf) + std::strlen(fileN)+1);
+    strcpy(pfad, pBuf );
+    strcat(pfad, fileN);
+            std::ifstream file(pfad);
+            if (file.good()){
+                hisc_json = nlohmann::json::parse(pfad);
+            }
+}
+
+void counter::enter_score(){
+        std::string name;
+        char repeat;
+        std::cout << "enter score: ";
+        std::cin>> score;
+        if (countdown - score >= 0 && countdown - score != 1){
+            countdown -= score;
+            std::cout<< "-> -> -> " << countdown<<"\n";
+            hisc_map_crt[std::to_string(hisc_map_crt.size()+1)] = score;                                           //"\"" + std::to_string(score) + "\"";
+            if (countdown == 0){
+                std::cout<< "\t\t\tnfinished!" << "with " << hisc_map_crt.size() << " darts\n";
+                for (auto it = hisc_json.begin(); it != hisc_json.end(); it++){
+                    if (hisc_map_crt.size() < it.value().size()-1 || it.key() == ""){
+                        std::cout<< "\t\t\tnew highscore! (place " << it.key() << ")\n Enter name:";
+                        std::cin >> name;
+                        hisc_map_crt["name"] = 2;
+                        it.value() = hisc_map_crt;
+                    }
+                }
+                std::cout<< "\t\t\tplay again? (y/n)\n";
+                std::cin>>repeat;
+                if (repeat == 'y'){
+                    countdown = 501; std::cout<< countdown << '\n';
+                }
+                else {exit(0);}
+            }
+        }
+        else {
+            std::cout<< "\t\t\tno score\n";
+            hisc_map_crt[std::to_string(hisc_map_crt.size()+1)] = 0;
+        }
+}
 
 counter::result counter::checkout_test(int countdown_p, std::map<std::string, double> current_targets, std::vector<std::pair<int,int>> ct, int i_p, int j_p){
     if (i_p == 0){
@@ -115,7 +173,7 @@ void counter::print(std::vector<std::vector<std::pair<int,int>>> ct_vec){
     int count = 0;
     std::cout << std::string(45, '-')<< '\n' << "Dart 1\t" << "Dart 2\tDart 3\t";
     if (checkout_v.size() > 0){std::cout << "for\t";}
-    std::cout<< "target area (mm2)n"  <<'\n';
+    std::cout<< "target area (mm2)"  <<'\n';
 
     for (auto i : ct_vec){
         if (count >= print_limit){break;}
@@ -130,6 +188,24 @@ void counter::print(std::vector<std::vector<std::pair<int,int>>> ct_vec){
             std::cout << std::string((2 - (i.size()-1)), '\t') << diffSum(i) << "\n";
             count++;
     }
+}
+
+counter::~counter(){
+//    hiscore = "{";
+//    for (auto it = hisc_map.begin(); it != hisc_map.end(); it++){
+//        hiscore += std::to_string(it.key()) + ":{";
+//        for (i : it->value){
+//            if (i == *(it->second.end()-1)){
+//                hiscore += std::to_string(i) +"}";
+//            }
+//            else{ hiscore += std::to_string(i) + ","; }
+//        }
+//        hiscore += "}";
+//    }
+
+    std::ofstream outfile;
+    outfile.open(pfad);
+    outfile << hisc_json;
 }
 
 
