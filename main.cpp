@@ -19,6 +19,7 @@ int main(){
 
     while (c.countdown != 0){
             c.enter_score();
+            if (c.countdown == 0) {break;}
 
             if (c.countdown <= 350){
                 if (c.countdown > 170 || std::find(std::begin(c.no_checkout), std::end(c.no_checkout), c.countdown) != std::end(c.no_checkout)) {
@@ -39,7 +40,9 @@ int main(){
                 std::cout<< std::string(45, '_')<<"\n\v";
             }
             else {
-                std::cout<< "\t\t\tcan't finish\n\n";
+                if (c.countdown != 501){
+                    std::cout<< "\t\t\tcan't finish\n\n";
+                }
             }
             c.finish_v = {};
             c.checkout_v = {};

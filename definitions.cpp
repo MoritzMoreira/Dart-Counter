@@ -26,10 +26,11 @@ counter::counter(){
     pfad = (char*) malloc(std::strlen(pBuf) + std::strlen(fileN)+1);
     strcpy(pfad, pBuf );
     strcat(pfad, fileN);
-            std::ifstream file(pfad);
-            if (file.good()){
-                hisc_json = nlohmann::json::parse(pfad);
-            }
+    std::ifstream file(pfad);
+    std::cout<<pfad<<'\n';
+    if (file.good()){
+        hisc_json = nlohmann::json::parse(file);
+    }
 }
 
 void counter::enter_score(){
@@ -42,21 +43,30 @@ void counter::enter_score(){
             std::cout<< "-> -> -> " << countdown<<"\n";
             hisc_map_crt[std::to_string(hisc_map_crt.size()+1)] = score;                                           //"\"" + std::to_string(score) + "\"";
             if (countdown == 0){
-                std::cout<< "\t\t\tnfinished!" << "with " << hisc_map_crt.size() << " darts\n";
+                std::cout<< "\t\t\tfinished!" << "with " << hisc_map_crt.size() << " darts\n";
                 for (auto it = hisc_json.begin(); it != hisc_json.end(); it++){
-                    if (hisc_map_crt.size() < it.value().size()-1 || it.key() == ""){
+                    if (hisc_map_crt.size() < it.value().size()-1 || it.value() == "") {
                         std::cout<< "\t\t\tnew highscore! (place " << it.key() << ")\n Enter name:";
                         std::cin >> name;
-                        hisc_map_crt["name"] = 2;
+                        hisc_map_crt[name] = 0;
                         it.value() = hisc_map_crt;
+                        break;
                     }
+                }
+                std::cout<< "new highscore:\n";
+                for (auto it = hisc_json.begin(); it != hisc_json.end(); it++){
+//                        auto last_json_object = it.value().rbegin();
+//                        std::cout << it.value().rbegin().key();
+                        if (it.value() != ""){
+                            std::cout<< it.key() << ". "  << it.value().rbegin().key() << " (" << it.value().size() << " darts)\n";
+                        }
                 }
                 std::cout<< "\t\t\tplay again? (y/n)\n";
                 std::cin>>repeat;
                 if (repeat == 'y'){
                     countdown = 501; std::cout<< countdown << '\n';
+                    hisc_map_crt = {};
                 }
-                else {exit(0);}
             }
         }
         else {
@@ -191,18 +201,6 @@ void counter::print(std::vector<std::vector<std::pair<int,int>>> ct_vec){
 }
 
 counter::~counter(){
-//    hiscore = "{";
-//    for (auto it = hisc_map.begin(); it != hisc_map.end(); it++){
-//        hiscore += std::to_string(it.key()) + ":{";
-//        for (i : it->value){
-//            if (i == *(it->second.end()-1)){
-//                hiscore += std::to_string(i) +"}";
-//            }
-//            else{ hiscore += std::to_string(i) + ","; }
-//        }
-//        hiscore += "}";
-//    }
-
     std::ofstream outfile;
     outfile.open(pfad);
     outfile << hisc_json;

@@ -51,7 +51,7 @@ private:
 
 
     double diff[5] = {2322.576, 419.354, 258.064, 129.032, 677.418};
-    std::string bed_names[5] = {"", "D", "T", "Bull", "DBull"};
+    std::string bed_names[5] = {"", "D", "T", "Bull", "DBull"}, hisc_names[5] = {"", "", "", "", ""};
     unsigned int limit = 1000, print_limit = 5;
     int score = 20;
     std::map<std::string, int> hisc_map_crt = {};
