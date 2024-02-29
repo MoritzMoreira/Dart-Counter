@@ -48,12 +48,13 @@ private:
     bool maxSingle(std::vector<std::pair<int,int>> finish_v_p, std::vector<std::pair<int,int>> ct_p);
     void insertion(std::map<std::string, double>, std::vector<std::pair<int,int>>);
     void insertion_checkout(std::map<std::string, double>, std::vector<std::pair<int,int>>);
+    void print_hisc();
 
 
     double diff[5] = {2322.576, 419.354, 258.064, 129.032, 677.418};
-    std::string bed_names[5] = {"", "D", "T", "Bull", "DBull"}, hisc_names[5] = {"", "", "", "", ""};
+    std::string bed_names[5] = {"", "D", "T", "Bull", "DBull"}, score_str;
     unsigned int limit = 1000, print_limit = 5;
-    int score = 20;
+    int score;
     std::map<std::string, int> hisc_map_crt = {};
     nlohmann::json hisc_json; // = {"6": {}, "6": {}, "6": {}, "6": {}, "6": {}};
     char* pfad;

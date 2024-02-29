@@ -11,12 +11,7 @@
 
 int main(){
     counter c;
-    std::cout<< c.countdown<<'\n';
-
-//    nlohmann::json j;
-//    std::vector<int> kf = {3,5,7};
-//    j["test"] = kf;
-
+    std::cout<< c.countdown<< "\t\t\t press h for highscore or\n";
     while (c.countdown != 0){
             c.enter_score();
             if (c.countdown == 0) {break;}
